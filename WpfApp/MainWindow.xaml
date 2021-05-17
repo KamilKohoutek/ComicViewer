@@ -8,30 +8,43 @@
         Title="MainWindow" Height="800" Width="800">
 
     <DockPanel>
-        <Menu x:Name="menu" VerticalAlignment="Top" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="20" Width="{Binding ActualWidth, ElementName=window}">
-            <MenuItem Header="File" Height="20" Width="Auto">
-                <MenuItem Header="Open Archive..." Click="ShowOpenFileDialog" />
-                <MenuItem Header="Open Folder..." Click="ShowOpenFolderDialog" />
-                <MenuItem Header="Open Recent" />
-                <Separator />
-                <MenuItem Header="Save Image As..." HorizontalAlignment="Left"/>
-                <Separator />
-                <MenuItem Header="Exit" HorizontalAlignment="Left" Height="Auto"/>
-            </MenuItem>
-        </Menu>
-
-        <ToolBarPanel DockPanel.Dock="Top">
+        <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Band="1" BandIndex="1">
-                <Button Width="32">|&lt;</Button>
-                <Button Click="GoToPreviousPage" Width="32">&lt;</Button>
-                <ComboBox Name="cmbPageNumbers" Width="64" SelectionChanged="ShowPage"></ComboBox>
-                <Button Click="GoToNextPage" Width="32">></Button>
-                <Button Width="32">>|</Button>
+                <Button ToolTip="Open Archive" Click="ShowOpenFileDialog">
+                    <Image Source="icons/book_open.png" />
+                </Button>
+                <Button ToolTip="Open Folder" Click="ShowOpenFolderDialog">
+                    <Image Source="icons/folder_picture.png" />
+                </Button>
+                <Separator></Separator>
+                <Button>
+                    <Image Source="icons/disk.png" />
+                </Button>
             </ToolBar>
-        </ToolBarPanel>
+            <ToolBar Band="1" BandIndex="2">
+                <Button Click="GoToPreviousPage">
+                    <Image Source="icons/control_start.png" />
+                </Button>
+                <Button Click="GoToPreviousPage">
+                    <Image Source="icons/control_rewind.png" />
+                </Button>
+                <ComboBox Name="cmbPageNumbers" Width="48" IsEditable="True" SelectionChanged="ShowPage" />
+                <Button Click="GoToNextPage">
+                    <Image Source="icons/control_fastforward.png" />
+                </Button>
+                <Button Click="GoToNextPage">
+                    <Image Source="icons/control_end.png" />
+                </Button>
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="3">
+                <Button ToolTip="About">
+                    <Image Source="icons/help.png" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
 
         <ScrollViewer Name="scrollViewer" DockPanel.Dock="Top">
-            <Image Name="image"/>
+            <Image Name="image" Stretch="None"/>
         </ScrollViewer>
     </DockPanel>
 </Window>
