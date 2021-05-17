@@ -13,8 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ComicModel;
 using Ookii.Dialogs.Wpf;
-//test
-// test
+
 namespace WpfApp
 {
     public partial class MainWindow : Window
