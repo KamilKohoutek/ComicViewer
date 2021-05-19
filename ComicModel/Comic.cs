@@ -6,16 +6,15 @@ namespace ComicModel
 {
     public class Comic : IDisposable
     {
-        private static readonly string[] ImageExtensions = { ".jpg", ".jpeg", ".png", ".bmp" };
         private static readonly NaturalStringComparer FilenameComparer = new NaturalStringComparer();
 
         private readonly IFileContainer container;
         private readonly object[] pages;
 
-        public Comic(IFileContainer c)
+        public Comic(IFileContainer c, string[] extensionFilter)
         {
             container = c;
-            pages = container.GetFiles().Where(f => ImageExtensions.Contains(Path.GetExtension(c.GetFilename(f).ToLower()))).OrderBy(f => c.GetFilename(f), FilenameComparer).ToArray();
+            pages = container.GetFiles().Where(f => extensionFilter.Contains(Path.GetExtension(c.GetFilename(f).ToLower()))).OrderBy(f => c.GetFilename(f), FilenameComparer).ToArray();
         }
 
         public int PageCount => pages.Length;

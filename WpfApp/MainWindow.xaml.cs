@@ -54,11 +54,11 @@ namespace WpfApp
         {
             var dialog = new VistaOpenFileDialog();
             dialog.Title = "Open Archive";
-            dialog.Filter = "Comic archives (*.cbz;*.cbr;*.cb7)|*.cbz;*.cbr;*.cb7";
+            dialog.Filter = "Comics (*.cbz;*.cbr;*.cb7)|*.cbz;*.cbr;*.cb7|Archives (*.zip;*.rar;*.7z)|*.zip;*.rar;*.7z";
             if(dialog.ShowDialog() == true)
             {
                 if (comic != null) comic.Dispose();
-                comic = new Comic(new ArchiveFileContainer(dialog.FileName));
+                comic = new Comic(new ArchiveFileContainer(dialog.FileName), new string[]{".jpg", ".jpeg", ".png", ".bmp"});
                 cmbPageNumbers.Items.Clear();
                 for(int i = 1; i <= comic.PageCount; i++) cmbPageNumbers.Items.Add(i);
                 cmbPageNumbers.SelectedIndex = 0;
@@ -71,7 +71,7 @@ namespace WpfApp
             if (dialog.ShowDialog() == true)
             {
                 if (comic != null) comic.Dispose();
-                comic = new Comic(new DirectoryFileContainer(dialog.SelectedPath));
+                comic = new Comic(new DirectoryFileContainer(dialog.SelectedPath), new string[] { ".jpg", ".jpeg", ".png", ".bmp" });
                 cmbPageNumbers.Items.Clear();
                 for (int i = 1; i <= comic.PageCount; i++) cmbPageNumbers.Items.Add(i);
                 cmbPageNumbers.SelectedIndex = 0;

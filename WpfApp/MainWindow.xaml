@@ -43,8 +43,8 @@
             </ToolBar>
         </ToolBarTray>
 
-        <ScrollViewer Name="scrollViewer" DockPanel.Dock="Top">
-            <Image Name="image" Stretch="None"/>
+        <ScrollViewer Name="scrollViewer" DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto">
+            <Image Name="image" Stretch="None" RenderOptions.BitmapScalingMode="HighQuality"/>
         </ScrollViewer>
     </DockPanel>
 </Window>
