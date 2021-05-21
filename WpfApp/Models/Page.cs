@@ -2,11 +2,7 @@
 {
     class Page
     {
-        public Page(int number)
-        {
-            Number = number;
-        }
-
+        public Page(int number) => Number = number;
         public int Number { get; }
     }
 }

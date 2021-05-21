@@ -4,16 +4,15 @@ using System.IO;
 
 namespace ComicModel
 {
-    public class ArchiveFileContainer : IFileContainer
+    public class ArchiveFileContainer : FileContainer
     {
         private readonly IArchive archive;
 
-        private ArchiveFileContainer(IArchive archive) => this.archive = archive;
-        public ArchiveFileContainer(string path) : this(ArchiveFactory.Open(path)) { }
+        public ArchiveFileContainer(string path) : base(path) => archive = ArchiveFactory.Open(path);
 
-        public IEnumerable<object> GetFiles() => archive.Entries;
-        public string GetFilename(object file) => (file as IArchiveEntry).Key;
-        public Stream Open(object file) => (file as IArchiveEntry).OpenEntryStream();
-        public void Dispose() => archive.Dispose();       
+        public override IEnumerable<object> GetFiles() => archive.Entries;
+        public override string GetFilename(object file) => (file as IArchiveEntry).Key;
+        public override Stream Open(object file) => (file as IArchiveEntry).OpenEntryStream();
+        public override void Dispose() => archive.Dispose();       
     }
 }

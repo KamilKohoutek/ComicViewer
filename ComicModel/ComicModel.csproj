@@ -63,6 +63,7 @@
     <Compile Include="ArchiveFileContainer.cs" />
     <Compile Include="Comic.cs" />
     <Compile Include="DirectoryFileContainer.cs" />
+    <Compile Include="FileContainer.cs" />
     <Compile Include="IFileContainer.cs" />
     <Compile Include="NaturalStringComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

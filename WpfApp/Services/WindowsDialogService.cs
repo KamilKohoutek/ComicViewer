@@ -1,13 +1,8 @@
 ﻿using Ookii.Dialogs.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WpfApp.Services
 {
-    class DialogService
+    class WindowsDialogService
     {
         public string OpenFileDialog()
         {

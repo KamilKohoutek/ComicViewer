@@ -11,8 +11,8 @@ namespace ComicModel
 
         public Comic(IFileContainer c, string[] extensionFilter)
         {
+            pages = c.GetFiles().Where(f => extensionFilter.Contains(Path.GetExtension(c.GetFilename(f).ToLower()))).OrderBy(f => c.GetFilename(f), new NaturalStringComparer()).ToArray();
             container = c;
-            pages = container.GetFiles().Where(f => extensionFilter.Contains(Path.GetExtension(c.GetFilename(f).ToLower()))).OrderBy(f => c.GetFilename(f), new NaturalStringComparer()).ToArray();
         }
 
         public int PageCount => pages.Length;

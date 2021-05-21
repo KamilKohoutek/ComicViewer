@@ -29,11 +29,11 @@
                 <Button>
                     <Image Source="../Resources/control_start.png" />
                 </Button>
-                <Button>
+                <Button Command="{Binding PreviousPageCommand}">
                     <Image Source="../Resources/control_rewind.png" />
                 </Button>
                 <ComboBox Width="48" IsEditable="True" ItemsSource="{Binding Path=Pages}" SelectedItem="{Binding Path=SelectedPage}" DisplayMemberPath="Number" />
-                <Button>
+                <Button Command="{Binding NextPageCommand}">
                     <Image Source="../Resources/control_fastforward.png" />
                 </Button>
                 <Button>
@@ -46,7 +46,6 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
             <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding DisplayedImage}" />
         </ScrollViewer>
