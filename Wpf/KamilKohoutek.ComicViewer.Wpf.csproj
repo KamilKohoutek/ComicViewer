@@ -131,12 +131,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\KamilKohoutek.ComicViewer.Core.csproj">
-      <Project>{5d97d8e1-5747-43b6-8b74-603d02178da4}</Project>
-      <Name>KamilKohoutek.ComicViewer.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Graphics\book_open.png" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +153,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Graphics\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\KamilKohoutek.ComicViewer.Core.csproj">
+      <Project>{5D97D8E1-5747-43B6-8B74-603D02178DA4}</Project>
+      <Name>KamilKohoutek.ComicViewer.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

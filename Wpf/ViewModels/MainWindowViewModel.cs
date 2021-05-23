@@ -14,7 +14,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
     class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly WindowsDialogService dialogService;
-        private Comic comic = null;
+        private OrderedFileContainerReader comic = null;
 
         public MainWindowViewModel()
         {
@@ -36,18 +36,13 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             get => _selectedPage;
             set
             {
-                if (value != null && value != _selectedPage)
-                {
-                    var bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.CacheOption = BitmapCacheOption.OnLoad;
-                    bi.StreamSource = comic.GetStream(value.Number);
-                    bi.EndInit();
-                    DisplayedImage = bi;
-
-                    _selectedPage = value;
-                    OnPropertyChanged("SelectedPage");
-                }
+                if (value == null || value == _selectedPage) return;
+                if (value.Image == null)
+                    value.Image = CreateBitmapImage(comic.GetStream(value.Number - 1));
+  
+                DisplayedImage = value.Image;
+                _selectedPage = value;
+                OnPropertyChanged("SelectedPage");
             }
         }
 
@@ -83,7 +78,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 
         private void NextPageCommand_Execute(object obj)
         {
-            if(comic != null && SelectedPage.Number < comic.PageCount)
+            if(comic != null && SelectedPage.Number < comic.FileCount)
                 SelectedPage = Pages[SelectedPage.Number];
         }
 
@@ -93,9 +88,16 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
                 SelectedPage = Pages[SelectedPage.Number - 2];
         }
 
-        private void FirstPageCommand_Execute(object obj) => SelectedPage = Pages[0];
-        private void LastPageCommand_Execute(object obj) => SelectedPage = Pages[Pages.Count - 1];
-
+        private void FirstPageCommand_Execute(object obj)
+        {
+            if (comic != null && SelectedPage.Number > 1)
+                SelectedPage = Pages[0];
+        }
+        private void LastPageCommand_Execute(object obj)
+        {
+            if (comic != null && SelectedPage.Number < comic.FileCount)
+                SelectedPage = Pages[Pages.Count - 1];
+        }
 
         private void OnOpenFileDialog(object obj)
         {
@@ -113,8 +115,8 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 
         private void OpenComic(IFileContainer source)
         {
-            var comic = new Comic(source, new string[] { ".jpg", ".jpeg", ".png", ".bmp" });
-            if (comic.PageCount == 0)
+            var comic = new OrderedFileContainerReader(source, new string[] { ".jpg", ".jpeg", ".png", ".bmp" });
+            if (comic.FileCount == 0)
             {
                 MessageBox.Show("No supported image files have been found in " + source.FullPath, "ComicViewer");
                 comic.Dispose();
@@ -127,13 +129,24 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
                 Pages.Clear();
             }
 
-            for (int i = 1; i <= comic.PageCount; i++)
+            for (int i = 0; i < comic.FileCount; i++)
             {
-                Pages.Add(new Page(i));
+                Pages.Add(new Page(i + 1));
             }
 
             this.comic = comic;
-            FirstPageCommand.Execute(null);
+            SelectedPage = Pages[0];
+        }
+
+
+        private static BitmapImage CreateBitmapImage(System.IO.Stream streamSource)
+        {
+            var bi = new BitmapImage();
+            bi.BeginInit();
+            bi.CacheOption = BitmapCacheOption.OnLoad;
+            bi.StreamSource = streamSource;
+            bi.EndInit();
+            return bi;
         }
     }
 }

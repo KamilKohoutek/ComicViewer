@@ -30,7 +30,7 @@
                 </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
-                <Button>
+                <Button Command="{Binding FirstPageCommand}">
                     <Image Source="../Graphics/control_start.png" />
                 </Button>
                 <Button Command="{Binding PreviousPageCommand}">
@@ -40,7 +40,7 @@
                 <Button Command="{Binding NextPageCommand}">
                     <Image Source="../Graphics/control_fastforward.png" />
                 </Button>
-                <Button>
+                <Button Command="{Binding LastPageCommand}">
                     <Image Source="../Graphics/control_end.png" />
                 </Button>
             </ToolBar>
