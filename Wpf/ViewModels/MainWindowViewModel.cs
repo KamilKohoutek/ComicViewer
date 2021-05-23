@@ -64,9 +64,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
         protected void OnPropertyChanged(String name)
         {
             if (PropertyChanged != null)
-            {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
 
         public ICommand OpenFileDialogCommand { get; }
@@ -127,17 +125,15 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             {
                 this.comic.Dispose();
                 Pages.Clear();
+                //GC.Collect();
             }
 
             for (int i = 0; i < comic.FileCount; i++)
-            {
                 Pages.Add(new Page(i + 1));
-            }
 
             this.comic = comic;
             SelectedPage = Pages[0];
         }
-
 
         private static BitmapImage CreateBitmapImage(System.IO.Stream streamSource)
         {
