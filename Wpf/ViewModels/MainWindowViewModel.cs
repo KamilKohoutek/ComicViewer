@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -125,7 +126,6 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             {
                 this.comic.Dispose();
                 Pages.Clear();
-                //GC.Collect();
             }
 
             for (int i = 0; i < comic.FileCount; i++)
@@ -135,13 +135,18 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             SelectedPage = Pages[0];
         }
 
-        private static BitmapImage CreateBitmapImage(System.IO.Stream streamSource)
+        private static BitmapImage CreateBitmapImage(Stream stream)
         {
             var bi = new BitmapImage();
-            bi.BeginInit();
-            bi.CacheOption = BitmapCacheOption.OnLoad;
-            bi.StreamSource = streamSource;
-            bi.EndInit();
+            using(var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                ms.Position = 0;
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+            }
             return bi;
         }
     }
