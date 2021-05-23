@@ -1,7 +1,7 @@
-﻿<Application x:Class="WpfApp.App"
+﻿<Application x:Class="KamilKohoutek.ComicViewer.Wpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WpfApp"
+             xmlns:local="clr-namespace:KamilKohoutek.ComicViewer.Wpf"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
          

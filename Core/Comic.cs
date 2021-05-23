@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace ComicModel
+namespace KamilKohoutek.ComicViewer.Core
 {
     public class Comic : IDisposable
     {

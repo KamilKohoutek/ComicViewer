@@ -7,8 +7,8 @@
     <ProjectGuid>{5D97D8E1-5747-43B6-8B74-603D02178DA4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComicModel</RootNamespace>
-    <AssemblyName>ComicModel</AssemblyName>
+    <RootNamespace>KamilKohoutek.ComicViewer.Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -4,12 +4,12 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ComicModel;
-using WpfApp.Commands;
-using WpfApp.Models;
-using WpfApp.Services;
+using KamilKohoutek.ComicViewer.Core;
+using KamilKohoutek.ComicViewer.Wpf.Commands;
+using KamilKohoutek.ComicViewer.Wpf.Models;
+using KamilKohoutek.ComicViewer.Wpf.Services;
 
-namespace WpfApp.ViewModels
+namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
@@ -24,6 +24,8 @@ namespace WpfApp.ViewModels
             FolderBrowserDialogCommand = new DelegateCommand(OnFolderBrowserDialog);
             NextPageCommand = new DelegateCommand(NextPageCommand_Execute);
             PreviousPageCommand = new DelegateCommand(PreviousPageCommand_Execute);
+            FirstPageCommand = new DelegateCommand(FirstPageCommand_Execute);
+            LastPageCommand = new DelegateCommand(LastPageCommand_Execute);
         }
 
         public ObservableCollection<Page> Pages { get; }
@@ -36,7 +38,7 @@ namespace WpfApp.ViewModels
             {
                 if (value != null && value != _selectedPage)
                 {
-                    BitmapImage bi = new BitmapImage();
+                    var bi = new BitmapImage();
                     bi.BeginInit();
                     bi.CacheOption = BitmapCacheOption.OnLoad;
                     bi.StreamSource = comic.GetStream(value.Number);
@@ -44,7 +46,7 @@ namespace WpfApp.ViewModels
                     DisplayedImage = bi;
 
                     _selectedPage = value;
-                    NotifyPropertyChanged("SelectedPage");
+                    OnPropertyChanged("SelectedPage");
                 }
             }
         }
@@ -58,17 +60,17 @@ namespace WpfApp.ViewModels
                 if (value != _displayedImage)
                 {
                     _displayedImage = value;
-                    NotifyPropertyChanged("DisplayedImage");
+                    OnPropertyChanged("DisplayedImage");
                 }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void NotifyPropertyChanged(String info)
+        protected void OnPropertyChanged(String name)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
 
@@ -76,8 +78,9 @@ namespace WpfApp.ViewModels
         public ICommand FolderBrowserDialogCommand { get; }
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
+        public ICommand FirstPageCommand { get; }
+        public ICommand LastPageCommand { get; }
 
-        //private bool NextPageCommand_CanExecute(object obj) => comic != null && SelectedPage.Number < comic.PageCount;
         private void NextPageCommand_Execute(object obj)
         {
             if(comic != null && SelectedPage.Number < comic.PageCount)
@@ -89,6 +92,10 @@ namespace WpfApp.ViewModels
             if (comic != null && SelectedPage.Number > 1)
                 SelectedPage = Pages[SelectedPage.Number - 2];
         }
+
+        private void FirstPageCommand_Execute(object obj) => SelectedPage = Pages[0];
+        private void LastPageCommand_Execute(object obj) => SelectedPage = Pages[Pages.Count - 1];
+
 
         private void OnOpenFileDialog(object obj)
         {
@@ -126,7 +133,7 @@ namespace WpfApp.ViewModels
             }
 
             this.comic = comic;
-            SelectedPage = Pages[0];
+            FirstPageCommand.Execute(null);
         }
     }
 }

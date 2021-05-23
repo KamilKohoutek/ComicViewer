@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComicModel
+namespace KamilKohoutek.ComicViewer.Core
 {
     internal class NaturalStringComparer : Comparer<string>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace WpfApp.Commands
+namespace KamilKohoutek.ComicViewer.Wpf.Commands
 {
     public class DelegateCommand : ICommand
     {
@@ -10,13 +10,8 @@ namespace WpfApp.Commands
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<object> execute)
-                       : this(execute, null)
-        {
-        }
-
         public DelegateCommand(Action<object> execute,
-                       Predicate<object> canExecute)
+                       Predicate<object> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;

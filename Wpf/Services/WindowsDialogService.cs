@@ -1,6 +1,6 @@
 ﻿using Ookii.Dialogs.Wpf;
 
-namespace WpfApp.Services
+namespace KamilKohoutek.ComicViewer.Wpf.Services
 {
     class WindowsDialogService
     {

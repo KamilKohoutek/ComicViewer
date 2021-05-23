@@ -1,9 +1,9 @@
-﻿<Window x:Name="window" x:Class="WpfApp.Views.MainWindow"
+﻿<Window x:Name="window" x:Class="KamilKohoutek.ComicViewer.Wpf.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp.ViewModels"
+        xmlns:local="clr-namespace:KamilKohoutek.ComicViewer.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="ComicViewer" Height="800" Width="800">
 
@@ -15,34 +15,33 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Band="1" BandIndex="1">
                 <Button ToolTip="Open Archive" Command="{Binding OpenFileDialogCommand}">
-                    <Image Source="../Resources/book_open.png" />
+                    <Image Source="../Graphics/book_open.png" />
                 </Button>
                 <Button ToolTip="Open Folder" Command="{Binding FolderBrowserDialogCommand}">
-                    <Image Source="../Resources/folder_picture.png" />
+                    <Image Source="../Graphics/folder_picture.png" />
                 </Button>
                 <Separator />
                 <Button>
-                    <Image Source="../Resources/disk.png" />
+                    <Image Source="../Graphics/disk.png" />
+                </Button>
+                <Separator />
+                <Button ToolTip="About">
+                    <Image Source="../Graphics/help.png" />
                 </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
                 <Button>
-                    <Image Source="../Resources/control_start.png" />
+                    <Image Source="../Graphics/control_start.png" />
                 </Button>
                 <Button Command="{Binding PreviousPageCommand}">
-                    <Image Source="../Resources/control_rewind.png" />
+                    <Image Source="../Graphics/control_rewind.png" />
                 </Button>
-                <ComboBox Width="48" IsEditable="True" ItemsSource="{Binding Path=Pages}" SelectedItem="{Binding Path=SelectedPage}" DisplayMemberPath="Number" />
+                <ComboBox Width="48" IsEditable="False" ItemsSource="{Binding Path=Pages}" SelectedItem="{Binding Path=SelectedPage}" DisplayMemberPath="Number" />
                 <Button Command="{Binding NextPageCommand}">
-                    <Image Source="../Resources/control_fastforward.png" />
+                    <Image Source="../Graphics/control_fastforward.png" />
                 </Button>
                 <Button>
-                    <Image Source="../Resources/control_end.png" />
-                </Button>
-            </ToolBar>
-            <ToolBar Band="1" BandIndex="3">
-                <Button ToolTip="About">
-                    <Image Source="../Resources/help.png" />
+                    <Image Source="../Graphics/control_end.png" />
                 </Button>
             </ToolBar>
         </ToolBarTray>

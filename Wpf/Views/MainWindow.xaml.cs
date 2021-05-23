@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WpfApp.Views
+namespace KamilKohoutek.ComicViewer.Wpf.Views
 {
     public partial class MainWindow : Window
     {

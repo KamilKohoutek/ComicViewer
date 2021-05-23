@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4499A775-C75B-4615-AE8D-85A2AF00693B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfApp</RootNamespace>
-    <AssemblyName>WpfApp</AssemblyName>
+    <RootNamespace>KamilKohoutek.ComicViewer.Wpf</RootNamespace>
+    <AssemblyName>Wpf</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -119,12 +119,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicModel\ComicModel.csproj">
-      <Project>{5D97D8E1-5747-43B6-8B74-603D02178DA4}</Project>
-      <Name>ComicModel</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.8 %28x86 a x64%29</ProductName>
@@ -136,30 +130,35 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\book_open.png" />
+    <ProjectReference Include="..\Core\KamilKohoutek.ComicViewer.Core.csproj">
+      <Project>{5d97d8e1-5747-43b6-8b74-603d02178da4}</Project>
+      <Name>KamilKohoutek.ComicViewer.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\disk.png" />
+    <Resource Include="Graphics\book_open.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\folder_picture.png" />
+    <Resource Include="Graphics\disk.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\control_fastforward.png" />
+    <Resource Include="Graphics\folder_picture.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\control_rewind.png" />
+    <Resource Include="Graphics\control_fastforward.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\control_end.png" />
+    <Resource Include="Graphics\control_rewind.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\control_start.png" />
+    <Resource Include="Graphics\control_end.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\help.png" />
+    <Resource Include="Graphics\control_start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\help.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

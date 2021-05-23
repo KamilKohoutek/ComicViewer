@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ComicModel
+namespace KamilKohoutek.ComicViewer.Core
 {
     /// <summary>
     /// Interface
