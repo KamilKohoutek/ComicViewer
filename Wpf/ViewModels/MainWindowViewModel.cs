@@ -23,11 +23,14 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             Pages = new ObservableCollection<Page>();
             OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialog);
             FolderBrowserDialogCommand = new DelegateCommand(OnFolderBrowserDialog);
+            SaveFileDialogCommand = new DelegateCommand(OnSaveFileDialog);
             NextPageCommand = new DelegateCommand(NextPageCommand_Execute);
             PreviousPageCommand = new DelegateCommand(PreviousPageCommand_Execute);
             FirstPageCommand = new DelegateCommand(FirstPageCommand_Execute);
             LastPageCommand = new DelegateCommand(LastPageCommand_Execute);
         }
+
+        private bool CanSaveFile() => comic != null;
 
         public ObservableCollection<Page> Pages { get; }
 
@@ -70,10 +73,12 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 
         public ICommand OpenFileDialogCommand { get; }
         public ICommand FolderBrowserDialogCommand { get; }
+        public ICommand SaveFileDialogCommand { get; }
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
         public ICommand FirstPageCommand { get; }
         public ICommand LastPageCommand { get; }
+
 
         private void NextPageCommand_Execute(object obj)
         {
@@ -112,6 +117,19 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             OpenComic(new DirectoryFileContainer(path));
         }
 
+        private void OnSaveFileDialog(object obj)
+        {
+            var filename = dialogService.SaveFileDialog();
+            if (filename == string.Empty) return;
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(SelectedPage.Image));
+            using (var fileStream = new FileStream(filename, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
+
         private void OpenComic(IFileContainer source)
         {
             var comic = new OrderedFileContainerReader(source, new string[] { ".jpg", ".jpeg", ".png", ".bmp" });
@@ -119,6 +137,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             {
                 MessageBox.Show("No supported image files have been found in " + source.FullPath, "ComicViewer");
                 comic.Dispose();
+                comic = null;
                 return;
             }
 
