@@ -8,10 +8,10 @@ namespace KamilKohoutek.ComicViewer.Core
     /// </summary>
     public abstract class FileContainer : IFileContainer
     {
-        protected FileContainer(string path) => fullPath = Path.GetFullPath(path);
+        protected FileContainer(string path) => _fullPath = Path.GetFullPath(path);
 
-        private readonly string fullPath;
-        public string FullPath => fullPath;
+        private readonly string _fullPath;
+        public string FullPath => _fullPath;
 
         public abstract string GetFilename(object file);
         public abstract IEnumerable<object> GetFiles();

@@ -11,37 +11,38 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
+
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Band="1" BandIndex="1">
                 <Button ToolTip="Open Archive" Command="{Binding OpenFileDialogCommand}">
-                    <Image Source="../Graphics/book_open.png" />
+                    <Image Source="../Resources/book_open.png" />
                 </Button>
                 <Button ToolTip="Open Folder" Command="{Binding FolderBrowserDialogCommand}">
-                    <Image Source="../Graphics/folder_picture.png" />
+                    <Image Source="../Resources/folder_picture.png" />
                 </Button>
                 <Separator />
                 <Button ToolTip="Save Image" Command="{Binding SaveFileDialogCommand}">
-                    <Image Source="../Graphics/disk.png" />
+                    <Image Source="../Resources/disk.png" />
                 </Button>
                 <Separator />
                 <Button ToolTip="About">
-                    <Image Source="../Graphics/help.png" />
+                    <Image Source="../Resources/help.png" />
                 </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
                 <Button Command="{Binding FirstPageCommand}">
-                    <Image Source="../Graphics/control_start.png" />
+                    <Image Source="../Resources/control_start.png" />
                 </Button>
                 <Button Command="{Binding PreviousPageCommand}">
-                    <Image Source="../Graphics/control_rewind.png" />
+                    <Image Source="../Resources/control_rewind.png" />
                 </Button>
                 <ComboBox Width="48" IsEditable="False" ItemsSource="{Binding Path=Pages}" SelectedItem="{Binding Path=SelectedPage}" DisplayMemberPath="Number" />
                 <Button Command="{Binding NextPageCommand}">
-                    <Image Source="../Graphics/control_fastforward.png" />
+                    <Image Source="../Resources/control_fastforward.png" />
                 </Button>
                 <Button Command="{Binding LastPageCommand}">
-                    <Image Source="../Graphics/control_end.png" />
+                    <Image Source="../Resources/control_end.png" />
                 </Button>
             </ToolBar>
         </ToolBarTray>

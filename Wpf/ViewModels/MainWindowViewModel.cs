@@ -14,23 +14,21 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly WindowsDialogService dialogService;
+        private readonly DialogService dialogService;
         private OrderedFileContainerReader comic = null;
 
         public MainWindowViewModel()
         {
-            dialogService = new WindowsDialogService();
+            dialogService = new DialogService();
             Pages = new ObservableCollection<Page>();
             OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialog);
             FolderBrowserDialogCommand = new DelegateCommand(OnFolderBrowserDialog);
-            SaveFileDialogCommand = new DelegateCommand(OnSaveFileDialog);
-            NextPageCommand = new DelegateCommand(NextPageCommand_Execute);
-            PreviousPageCommand = new DelegateCommand(PreviousPageCommand_Execute);
-            FirstPageCommand = new DelegateCommand(FirstPageCommand_Execute);
-            LastPageCommand = new DelegateCommand(LastPageCommand_Execute);
+            SaveFileDialogCommand = new DelegateCommand(OnSaveFileDialog, x => comic != null);
+            NextPageCommand = new DelegateCommand(OnNextPageCommand);
+            PreviousPageCommand = new DelegateCommand(OnPreviousPageCommand);
+            FirstPageCommand = new DelegateCommand(OnFirstPageCommand);
+            LastPageCommand = new DelegateCommand(OnLastPageCommand);
         }
-
-        private bool CanSaveFile() => comic != null;
 
         public ObservableCollection<Page> Pages { get; }
 
@@ -80,24 +78,24 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
         public ICommand LastPageCommand { get; }
 
 
-        private void NextPageCommand_Execute(object obj)
+        private void OnNextPageCommand(object obj)
         {
             if(comic != null && SelectedPage.Number < comic.FileCount)
                 SelectedPage = Pages[SelectedPage.Number];
         }
 
-        private void PreviousPageCommand_Execute(object obj)
+        private void OnPreviousPageCommand(object obj)
         {
             if (comic != null && SelectedPage.Number > 1)
                 SelectedPage = Pages[SelectedPage.Number - 2];
         }
 
-        private void FirstPageCommand_Execute(object obj)
+        private void OnFirstPageCommand(object obj)
         {
             if (comic != null && SelectedPage.Number > 1)
                 SelectedPage = Pages[0];
         }
-        private void LastPageCommand_Execute(object obj)
+        private void OnLastPageCommand(object obj)
         {
             if (comic != null && SelectedPage.Number < comic.FileCount)
                 SelectedPage = Pages[Pages.Count - 1];
@@ -117,17 +115,11 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             OpenComic(new DirectoryFileContainer(path));
         }
 
-        private void OnSaveFileDialog(object obj)
+        private void OnSaveFileDialog(object param)
         {
             var filename = dialogService.SaveFileDialog();
             if (filename == string.Empty) return;
-
-            var encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(SelectedPage.Image));
-            using (var fileStream = new FileStream(filename, FileMode.Create))
-            {
-                encoder.Save(fileStream);
-            }
+            WriteBitmapImageToFile((param as Page).Image, filename);
         }
 
         private void OpenComic(IFileContainer source)
@@ -145,13 +137,16 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             {
                 this.comic.Dispose();
                 Pages.Clear();
+                GC.Collect();
             }
 
             for (int i = 0; i < comic.FileCount; i++)
                 Pages.Add(new Page(i + 1));
 
             this.comic = comic;
+
             SelectedPage = Pages[0];
+            (SaveFileDialogCommand as DelegateCommand).RaiseCanExecuteChanged();
         }
 
         private static BitmapImage CreateBitmapImage(Stream stream)
@@ -167,6 +162,16 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
                 bi.EndInit();
             }
             return bi;
+        }
+
+        private static void WriteBitmapImageToFile(BitmapImage image, string filename)
+        {
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            using (var fileStream = new FileStream(filename, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
         }
     }
 }

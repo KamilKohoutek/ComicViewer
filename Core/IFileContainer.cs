@@ -5,7 +5,7 @@ using System.IO;
 namespace KamilKohoutek.ComicViewer.Core
 {
     /// <summary>
-    /// Interface
+    /// Functionalities that every file container should have
     /// </summary>
     public interface IFileContainer : IDisposable
     {

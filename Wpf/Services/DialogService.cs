@@ -2,7 +2,7 @@
 
 namespace KamilKohoutek.ComicViewer.Wpf.Services
 {
-    class WindowsDialogService
+    class DialogService
     {
         public string OpenFileDialog()
         {
