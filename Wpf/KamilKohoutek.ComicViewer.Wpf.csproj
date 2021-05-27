@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BitmapUtils.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Services\DialogService.cs" />

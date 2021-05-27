@@ -40,7 +40,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             {
                 if (value == null || value == _selectedPage) return;
                 if (value.Image == null)
-                    value.Image = CreateBitmapImage(comic.GetStream(value.Number - 1));
+                    value.Image = BitmapUtils.CreateBitmapImage(comic.GetStream(value.Number - 1));
   
                 DisplayedImage = value.Image;
                 _selectedPage = value;
@@ -119,7 +119,7 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
         {
             var filename = dialogService.SaveFileDialog();
             if (filename == string.Empty) return;
-            WriteBitmapImageToFile((param as Page).Image, filename);
+            BitmapUtils.WriteBitmapImageToFile((param as Page).Image, filename);
         }
 
         private void OpenComic(IFileContainer source)
@@ -147,31 +147,6 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 
             SelectedPage = Pages[0];
             (SaveFileDialogCommand as DelegateCommand).RaiseCanExecuteChanged();
-        }
-
-        private static BitmapImage CreateBitmapImage(Stream stream)
-        {
-            var bi = new BitmapImage();
-            using(var ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                ms.Position = 0;
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-            }
-            return bi;
-        }
-
-        private static void WriteBitmapImageToFile(BitmapImage image, string filename)
-        {
-            var encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(image));
-            using (var fileStream = new FileStream(filename, FileMode.Create))
-            {
-                encoder.Save(fileStream);
-            }
         }
     }
 }
