@@ -22,7 +22,7 @@
                     <Image Source="../Resources/folder_picture.png" />
                 </Button>
                 <Separator />
-                <Button ToolTip="Save Image" Command="{Binding SaveFileDialogCommand}">
+                <Button ToolTip="Save Image">
                     <Image Source="../Resources/disk.png" />
                 </Button>
                 <Separator />

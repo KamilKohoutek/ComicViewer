@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using KamilKohoutek.ComicViewer.Core;
-using KamilKohoutek.ComicViewer.Wpf.Commands;
 using KamilKohoutek.ComicViewer.Wpf.Models;
 using KamilKohoutek.ComicViewer.Wpf.Services;
 
+using MvvmHelpers;
+using MvvmHelpers.Commands;
+
 namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    class MainWindowViewModel : BaseViewModel
     {
         private readonly DialogService dialogService;
         private OrderedFileContainerReader comic = null;
@@ -21,13 +21,12 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
         {
             dialogService = new DialogService();
             Pages = new ObservableCollection<Page>();
-            OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialog);
-            FolderBrowserDialogCommand = new DelegateCommand(OnFolderBrowserDialog);
-            SaveFileDialogCommand = new DelegateCommand(OnSaveFileDialog, x => comic != null);
-            NextPageCommand = new DelegateCommand(OnNextPageCommand);
-            PreviousPageCommand = new DelegateCommand(OnPreviousPageCommand);
-            FirstPageCommand = new DelegateCommand(OnFirstPageCommand);
-            LastPageCommand = new DelegateCommand(OnLastPageCommand);
+            OpenFileDialogCommand = new Command(OnOpenFileDialog);
+            FolderBrowserDialogCommand = new Command(OnFolderBrowserDialog);
+            NextPageCommand = new Command(OnNextPageCommand);
+            PreviousPageCommand = new Command(OnPreviousPageCommand);
+            FirstPageCommand = new Command(OnFirstPageCommand);
+            LastPageCommand = new Command(OnLastPageCommand);
         }
 
         public ObservableCollection<Page> Pages { get; }
@@ -38,13 +37,12 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             get => _selectedPage;
             set
             {
-                if (value == null || value == _selectedPage) return;
+                //if (value == null || value == _selectedPage) return;
                 if (value.Image == null)
                     value.Image = BitmapUtils.CreateBitmapImage(comic.GetStream(value.Number - 1));
-  
+
                 DisplayedImage = value.Image;
-                _selectedPage = value;
-                OnPropertyChanged("SelectedPage");
+                SetProperty(ref _selectedPage, value);
             }
         }
 
@@ -52,26 +50,11 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
         public BitmapImage DisplayedImage
         {
             get => _displayedImage;
-            set
-            {
-                if (value != _displayedImage)
-                {
-                    _displayedImage = value;
-                    OnPropertyChanged("DisplayedImage");
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(String name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            set => SetProperty(ref _displayedImage, value);
         }
 
         public ICommand OpenFileDialogCommand { get; }
         public ICommand FolderBrowserDialogCommand { get; }
-        public ICommand SaveFileDialogCommand { get; }
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
         public ICommand FirstPageCommand { get; }
@@ -115,13 +98,6 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             OpenComic(new DirectoryFileContainer(path));
         }
 
-        private void OnSaveFileDialog(object param)
-        {
-            var filename = dialogService.SaveFileDialog();
-            if (filename == string.Empty) return;
-            BitmapUtils.WriteBitmapImageToFile((param as Page).Image, filename);
-        }
-
         private void OpenComic(IFileContainer source)
         {
             var comic = new OrderedFileContainerReader(source, new string[] { ".jpg", ".jpeg", ".png", ".bmp" });
@@ -146,7 +122,6 @@ namespace KamilKohoutek.ComicViewer.Wpf.ViewModels
             this.comic = comic;
 
             SelectedPage = Pages[0];
-            (SaveFileDialogCommand as DelegateCommand).RaiseCanExecuteChanged();
         }
     }
 }
